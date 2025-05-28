@@ -244,11 +244,17 @@ class CritiGraph(torch.nn.Module):
         
 
 # >>> Data Loading Functions <<<
-def get_train_pt(data_path, split_ratio):
-    split_edges = torch.load(os.path.join(data_path, f'split_dict_{split_ratio}.pt'))
+def get_train_pt(data_path, split_ratio=None, direct_load=False, dataset_name=None):
+    if direct_load:
+        split_edges = torch.load(os.path.join(data_path, f'{dataset_name}.pt'))
+    else:
+        split_edges = torch.load(os.path.join(data_path, f'split_dict_{split_ratio}.pt'))
     return split_edges['train']['edge'].to(device).to(torch.int64)
-def get_test_pt(data_path, split_ratio):
-    split_edges = torch.load(os.path.join(data_path, f'split_dict_{split_ratio}.pt'))
+def get_test_pt(data_path, split_ratio=None, direct_load=False, dataset_name=None):
+    if direct_load:
+        split_edges = torch.load(os.path.join(data_path, f'{dataset_name}.pt'))
+    else:
+        split_edges = torch.load(os.path.join(data_path, f'split_dict_{split_ratio}.pt'))
     return split_edges['test']['edge'].to(device).to(torch.int64), split_edges['test']['edge_neg'].to(device).to(torch.int64)
 
 
@@ -300,6 +306,8 @@ if __name__ == "__main__":
     chunks = args.chunks
     convergence = args.convergence
     eval_step = args.eval_step
+    direct_load = False
+    
     set_random_seed(seed)
     print(f"dataset_name={dataset_name}, seed={seed}, epoch={epoch}, split_ratio={split_ratio}, alpha={alpha}, h={h}, gamma={gamma}, tp={tp}, c={c}, neg={neg}, batch_size={batch_size}, pos_ratio={pos_ratio}, chunks={chunks}, convergence={convergence}, eval_step={eval_step}")
     
@@ -308,13 +316,18 @@ if __name__ == "__main__":
         if dataset_name == "ogbl_collab":
             data_path = f'./datasets/{dataset_name}/split/time'
         elif dataset_name == "ogbl_ppa":
-            data_path = f'./datasets/{dataset_name}/split/throughput'       
+            data_path = f'./datasets/{dataset_name}/split/throughput'    
+    elif dataset_name.startswith("ER"):
+        data_path = f'./datasets/synthetic'  
+        direct_load = True 
     else:
         data_path = f'./datasets/{dataset_name}/split/'
         
     print("start to load", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-    train_data = get_train_pt(data_path, split_ratio)
-    test_data = get_test_pt(data_path, split_ratio)
+    train_data = get_train_pt(data_path, split_ratio, 
+                            direct_load=direct_load, dataset_name=dataset_name)
+    test_data = get_test_pt(data_path, split_ratio, 
+                            direct_load=direct_load, dataset_name=dataset_name)
     print("end to load", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     
     # 6. Train and Test the model

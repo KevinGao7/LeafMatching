@@ -31,7 +31,7 @@ do
         CUDA_VISIBLE_DEVICES=$device nohup python main.py \
         --seed $seed --dataset $dataset --epoch 160 \
         --split_ratio $ratio --alpha 33 --gamma 5 --h 16 --tp 16 --c 3 --neg 1\
-        --batch_size 128 --pos_ratio 0.75 --eval_step 160 --convergence 160\
+        --batch_size 128 --pos_ratio 0.75 --eval_step 160 --convergence 1.0\
         > ./logs/scalability-${dataset}-r${ratio}-s${seed}.log 2>&1 &
 
         wait

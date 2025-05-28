@@ -42,7 +42,7 @@ for i in range(10, 20):
             test_neg.add(new_edge)
 
     # save
-    savedir = f'.datasets/synthetic/'
+    savedir = f'./datasets/synthetic/'
     if not os.path.exists(savedir):
         os.makedirs(savedir)
 
@@ -58,7 +58,7 @@ for i in range(10, 20):
     print("processing test data")
     # test data
     test['edge'] = test_pos
-    test['edge_neg'] = test_neg
+    test['edge_neg'] = list(test_neg)
 
     print("processing valid data")
     # valid data

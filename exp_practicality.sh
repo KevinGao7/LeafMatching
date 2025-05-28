@@ -7,7 +7,7 @@ mkdir -p ./logs
 dataset=ogbl_collab
 ratio=0.02
 echo "Processing dataset $dataset with ratio $ratio ..."
-for seed in 1
+for seed in 1 2 3 4 5
 do
     device=0
 
@@ -27,7 +27,7 @@ echo "$dataset processing completed."
 dataset=ogbl_ppa
 ratio=0.02
 echo "Processing dataset $dataset with ratio $ratio ..."
-for seed in 1
+for seed in 1 2 3 4 5
 do
     device=0
 
