@@ -51,7 +51,7 @@ class EmbeddingLinkPredictionDataWrapper(DataWrapper):
         for edge in edge_list:
             if (edge[0], edge[1]) not in edge_set and (edge[1], edge[0]) not in edge_set:
                 edge_set.add(edge)
-        edge_list = list(edge_set) # 此时肯定没有重边
+        edge_list = list(edge_set)
         if hasattr(self, "split_ratio2time"):
             train_edges = []
             test_edges = []
@@ -63,7 +63,7 @@ class EmbeddingLinkPredictionDataWrapper(DataWrapper):
                 else:
                     test_edges.append((u.item(), v.item()))
         else:
-            train_edges, test_edges = divide_data(edge_list, [split_ratio, 1 - split_ratio]) # 没有重边
+            train_edges, test_edges = divide_data(edge_list, [split_ratio, 1 - split_ratio])
         
         test_true_edges, test_false_edges = gen_node_pairs(train_edges, test_edges, self.negative_ratio)
         train_edges = np.array(train_edges).transpose()

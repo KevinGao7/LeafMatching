@@ -130,18 +130,18 @@ class CritiGraph(torch.nn.Module):
             
         else:
             random_probs = torch.rand(bs, device=device) # (bs, )
-            choosing_mask = random_probs > 0.2 # (bs, ), 选全邻居还是随机 1 个邻居
+            choosing_mask = random_probs > 0.2 # (bs, )
             batch_lengths = torch.where(choosing_mask, batch_degree, 1)
             
             one_random_neighbor = (torch.rand(bs, device=device) * batch_degree).floor().long()
             random_neighbor_mask = torch.zeros((bs, batch_max_degree), dtype=torch.bool, device=device) # (bs, max_degree)
-            random_neighbor_mask[torch.arange(bs), one_random_neighbor] = True # (bs, max_degree), 随机选一个邻居
+            random_neighbor_mask[torch.arange(bs), one_random_neighbor] = True # (bs, max_degree)
             one_random_neighbor = torch.full((bs, batch_max_degree), -1, dtype=torch.int64, device=device)
             one_random_neighbor[:, 0] = batch_neighbor[random_neighbor_mask] # (bs, max_degree)            
             
             batch_neighbor = torch.where(choosing_mask.unsqueeze(1), 
                                          batch_neighbor,
-                                         one_random_neighbor) # (bs, max_degree), mask 为 True 时选 full, mask为 False 时选 random
+                                         one_random_neighbor) # (bs, max_degree)
             batch_neighbor = batch_neighbor[:, :batch_lengths.max()]
             batch_mask = batch_neighbor != -1
         return batch_neighbor, batch_lengths, batch_mask
