@@ -3,7 +3,7 @@ MIT License
 Copyright (c) 2025 Center for Brain-Inspired Computing Research, Department of Precision Instrument, Tsinghua University.
 Contributors: Chi Gao, Lukai Li, Yancheng Zhou, and Shangqi Guo.
 
-This project includes modified code from [Original Author's Name]. The original code is licensed under the MIT License.
+This project includes modified code from [LPFormer](https://github.com/HarryShomer/LPFormer) and [HeaRT](https://github.com/Juanhui28/HeaRT).
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
